@@ -11,7 +11,7 @@
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/media/og-image.png">
 
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+  <link rel="icon" type="image/webp" href="assets/media/icon.webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -22,20 +22,20 @@
   <header class="nav">
     <div class="nav-inner">
       <a class="brand" href="#top">
-        <span class="brand-mark">🤖</span>
-        <span>WR Giveaway Finder</span>
+        <img class="brand-mark" src="assets/media/icon.webp" alt="">
+        <span>WR Giveaway Bot</span>
       </a>
       <nav class="nav-links">
-        <a href="#demo">Demo</a>
+        <!--<a href="#demo">Demo</a>
         <a href="#how-it-works">How it works</a>
         <a href="#features">Features</a>
         <a href="#stack">Stack</a>
         <a href="#highlights">Highlights</a>
         <a href="#building">Now</a>
-        <a href="#privacy">Privacy</a>
+        <a href="#privacy">Privacy</a> -->
       </nav>
       <a class="btn btn-primary btn-small" href="https://discord.com/oauth2/authorize?client_id=1502836905106997348&amp;permissions=84992&amp;scope=bot+applications.commands">
-        Add to Discord
+        Start winning today
       </a>
     </div>
   </header>
@@ -43,20 +43,16 @@
   <main>
     <section id="top" class="hero">
       <div class="hero-inner">
-        <p class="kicker">Discord Bot &middot; LLM-filtered &middot; Always-on</p>
-        <h1>Never miss a real War Robots giveaway again.</h1>
+        <h1>Time to win more War Robots giveaways.</h1>
         <p class="hero-sub">
-          WR Giveaway Finder scans YouTube around the clock, scores every video against a
-          giveaway heuristic, and runs an LLM pass to strip out scams, reposts, and
-          "winner already announced" noise &mdash; then posts the real ones straight to your
-          Discord channel.
+          WR Giveaway Bot looks for giveaways from your favorite content creators and shares them in your favorite War Robots discord server so you never miss out on giveaways. 
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1502836905106997348&amp;permissions=84992&amp;scope=bot+applications.commands">
-            <span>Add to Discord</span>
+            <span>Start winning today</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <a class="btn btn-ghost" href="#demo">See it in action</a>
+          <!--<a class="btn btn-ghost" href="#demo">See it in action</a> -->
         </div>
       </div>
     </section>
@@ -67,49 +63,20 @@
 
       <div class="demo-grid">
         <figure class="demo-card demo-card-primary">
-          <div class="media-frame">
-            <video class="media" autoplay loop muted playsinline poster="assets/media/giveaway-post.jpg">
-              <source src="assets/media/giveaway-post.mp4" type="video/mp4">
-            </video>
-            <div class="media-placeholder">
-              <span>Drop <code>giveaway-post.mp4</code> (or .gif) in <code>assets/media/</code></span>
-            </div>
+          <div class="media-frame giveaway-frame">
+            <img class="media" src="assets/media/sample_giveaway_found.png" alt="Discord embed showing the bot's &quot;New giveaway found!&quot; post for a War Robots YouTube giveaway, with the giveaway title, description, and video thumbnail">
           </div>
           <figcaption>
             <strong>A giveaway, auto-posted.</strong>
             The bot finds a matching video and posts it as a rich embed the moment it clears the filter.
           </figcaption>
         </figure>
-
-        <figure class="demo-card">
-          <div class="media-frame">
-            <video class="media" autoplay loop muted playsinline poster="assets/media/setchannel.jpg">
-              <source src="assets/media/setchannel.mp4" type="video/mp4">
-            </video>
-            <div class="media-placeholder">
-              <span>Drop <code>setchannel.mp4</code> (or .gif) in <code>assets/media/</code></span>
-            </div>
-          </div>
-          <figcaption><strong>One command to set up.</strong> <code>/setchannel</code> and you're live.</figcaption>
-        </figure>
-
-        <figure class="demo-card">
-          <div class="media-frame">
-            <video class="media" autoplay loop muted playsinline poster="assets/media/daily-summary.jpg">
-              <source src="assets/media/daily-summary.mp4" type="video/mp4">
-            </video>
-            <div class="media-placeholder">
-              <span>Drop <code>daily-summary.mp4</code> (or .gif) in <code>assets/media/</code></span>
-            </div>
-          </div>
-          <figcaption><strong>Daily digest.</strong> A rollup of everything found and posted in the last 24 hours.</figcaption>
-        </figure>
       </div>
     </section>
 
     <section id="how-it-works" class="section">
       <h2>How it works</h2>
-      <p class="section-sub">The path from a YouTube upload to a post in your server.</p>
+      <p class="section-sub">For those who are curious about the inner works.</p>
 
       <div class="diagram-wrap">
         <svg class="architecture-diagram" viewBox="0 0 1160 140" role="img" aria-labelledby="arch-title arch-desc" xmlns="http://www.w3.org/2000/svg">
@@ -179,13 +146,13 @@
         </li>
         <li class="pipeline-step">
           <div class="pipeline-icon">🧠</div>
-          <h3>Classify with an LLM</h3>
-          <p>Borderline cases get a model pass that judges real-giveaway vs. scam/repost, gated by a confidence threshold.</p>
+          <h3>Verification with an AI</h3>
+          <p>Borderline cases gets reviewed by an AI to see if it's actually a giveaway.</p>
         </li>
         <li class="pipeline-step">
           <div class="pipeline-icon">📬</div>
           <h3>Post &amp; track</h3>
-          <p>Approved videos post to your configured channel; everything's logged to Postgres to avoid duplicates and power the daily summary.</p>
+          <p>Approved videos are post to your configured channel and everything else are securely stored for research purposes. </p>
         </li>
       </ol>
     </section>
@@ -199,11 +166,11 @@
           <div class="features-grid">
             <div class="feature-card">
               <h4>Always scanning</h4>
-              <p>It's out there scanning YouTube around the clock, so nothing slips through while you're not watching.</p>
+              <p>It's out there scanning YouTube around the clock, so you don't miss out on any giveaways.</p>
             </div>
             <div class="feature-card">
               <h4>Smart filtering</h4>
-              <p>Every video gets scored, then double-checked by an LLM against a running creator whitelist/blacklist &mdash; so scams and reposts never make it to your channel.</p>
+              <p>Only videos from approved content creators and are actual giveaways get posted.</p>
             </div>
           </div>
         </div>
@@ -213,11 +180,11 @@
           <div class="features-grid">
             <div class="feature-card">
               <h4>One-command setup</h4>
-              <p><code>/setchannel</code> and you're live &mdash; no dashboards, no config files to edit.</p>
+              <p><code>/setchannel</code> and the bot is live. That's it.</p>
             </div>
             <div class="feature-card">
               <h4>Per-server settings</h4>
-              <p>Every server keeps its own channel and preferences, stored independently so nothing bleeds between servers.</p>
+              <p>Every server keeps its own channel and notification settings.</p>
             </div>
           </div>
         </div>
@@ -246,8 +213,6 @@
         <li>PostgreSQL</li>
         <li>OpenAI API</li>
         <li>YouTube Data API</li>
-        <li>APScheduler</li>
-        <li>Google Cloud Compute Engine</li>
       </ul>
     </section>
 
@@ -285,10 +250,10 @@
 
     <section id="building" class="section">
       <h2>What I'm building next</h2>
-      <p class="section-sub">This is a side project I keep pushing on in my free time &mdash; here's what's on my bench right now.</p>
+      <p class="section-sub">Curious to see what's next?</p>
 
       <div class="building-list">
-        <div class="building-item">
+        <!--div class="building-item">
           <span class="building-tag">In progress</span>
           <h3>CI pipeline &amp; linting</h3>
           <p>I'm wiring up automated test runs and linting on every push, so I can ship changes faster without worrying I broke something in production.</p>
@@ -297,29 +262,38 @@
           <span class="building-tag">In progress</span>
           <h3>An eval harness for the classifier</h3>
           <p>The LLM confidence threshold is basically a guess right now. I'm building a labeled test set so I can actually measure accuracy and tune it with data instead of intuition.</p>
+        </div-->
+        <div class="building-item">
+          <span class="building-tag">In Progress</span>
+          <h3>Role-based notifcations</h3>
+          <p>Create support for that the bot will ping roles designation for subscribing to this bot in each server. </p>
+        </div>
+        <div class="building-item">
+          <span class="building-tag">In Progress</span>
+          <h3>Option to toggle filter.</h3>
+          <p>Some content creators host legit d-gem giveaways but aren't seen due to small channel size. It's time to let the smaller creators shine.</p>
         </div>
         <div class="building-item">
           <span class="building-tag">Planned</span>
           <h3>Feedback on posted giveaways</h3>
-          <p>I want server members to be able to flag a false positive with a reaction. That feedback becomes real training data for the classifier over time.</p>
+          <p>I want server members to be able to flag false positive and false negatives with a reaction. That feedback becomes training data for the classifier over time.</p>
         </div>
         <div class="building-item">
           <span class="building-tag">Planned</span>
           <h3>An admin review queue</h3>
           <p>Not every server wants the same level of strictness. I'm adding a queue so admins can manually approve borderline videos instead of trusting the auto-filter completely.</p>
         </div>
-        <div class="building-item">
+        <!--div class="building-item">
           <span class="building-tag">Planned</span>
           <h3>Containerizing with Docker</h3>
           <p>I'm planning a migration off my current Compute Engine box to a container-based platform, so Docker is next on the infra side.</p>
-        </div>
+        </div-->
+        
       </div>
     </section>
 
     <section id="privacy" class="section">
       <h2>Privacy &amp; permissions</h2>
-      <p class="section-sub">The bot only asks for what it actually needs &mdash; here's exactly what that is.</p>
-
       <div class="building-list">
         <div class="building-item">
           <h3>Permissions it requests</h3>
@@ -330,15 +304,14 @@
             <li>Read Message History</li>
             <li><code>applications.commands</code> scope, for the slash commands</li>
           </ul>
-          <p class="privacy-note">It never asks to read message content, manage roles or channels, or kick/ban members.</p>
         </div>
         <div class="building-item">
           <h3>What it stores</h3>
           <ul class="privacy-list">
             <li>Which channel each server wants giveaways posted to</li>
-            <li>Metadata for videos it's found &mdash; title, channel, URL, and its score &mdash; to avoid duplicate posts and power the daily digest</li>
+            <li>Metadata for videos it's found to avoid duplicate posts and power the daily digest</li>
           </ul>
-          <p class="privacy-note">It never stores message content, member lists, or anything from DMs. Removing the bot, or deleting the configured channel, automatically deletes your server's stored config.</p>
+          <p class="privacy-note">This bot does not collect any user data or any other server data. Removing the bot, or deleting the configured channel, automatically deletes your server's stored config.</p>
         </div>
       </div>
     </section>
@@ -347,16 +320,14 @@
       <h2>Try it in your server</h2>
       <p class="section-sub">Free to add. One command to get started.</p>
       <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1502836905106997348&amp;permissions=84992&amp;scope=bot+applications.commands">
-        <span>Add to Discord</span>
+        <span>Start winning today.</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </section>
   </main>
 
   <footer class="footer">
-    <p>Built by <a href="#" id="footer-link">your name</a>.</p>
+    <p>Built by spectre729, a War Robots player.</p>
   </footer>
-
-  <script src="script.js"></script>
 </body>
 </html>
