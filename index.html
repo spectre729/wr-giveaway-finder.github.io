@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>War Robots Giveaway Finder</title>
+  <meta name="description" content="A Discord bot that automatically finds real War Robots YouTube giveaways and posts them to your server, filtered by an LLM to cut out scams and reposts.">
+
+  <meta property="og:title" content="War Robots Giveaway Finder">
+  <meta property="og:description" content="Finds real War Robots YouTube giveaways and posts them to your Discord server, automatically.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/media/og-image.png">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark">🤖</span>
+        <span>WR Giveaway Finder</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#demo">Demo</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#stack">Stack</a>
+        <a href="#highlights">Highlights</a>
+        <a href="#building">Now</a>
+        <a href="#privacy">Privacy</a>
+      </nav>
+      <a class="btn btn-primary btn-small" href="https://discord.com/oauth2/authorize?client_id=1502836905106997348&amp;permissions=84992&amp;scope=bot+applications.commands">
+        Add to Discord
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section id="top" class="hero">
+      <div class="hero-inner">
+        <p class="kicker">Discord Bot &middot; LLM-filtered &middot; Always-on</p>
+        <h1>Never miss a real War Robots giveaway again.</h1>
+        <p class="hero-sub">
+          WR Giveaway Finder scans YouTube around the clock, scores every video against a
+          giveaway heuristic, and runs an LLM pass to strip out scams, reposts, and
+          "winner already announced" noise &mdash; then posts the real ones straight to your
+          Discord channel.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1502836905106997348&amp;permissions=84992&amp;scope=bot+applications.commands">
+            <span>Add to Discord</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#demo">See it in action</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="demo" class="section">
+      <h2>See it in action</h2>
+      <p class="section-sub">Real captures from a live server running the bot.</p>
+
+      <div class="demo-grid">
+        <figure class="demo-card demo-card-primary">
+          <div class="media-frame">
+            <video class="media" autoplay loop muted playsinline poster="assets/media/giveaway-post.jpg">
+              <source src="assets/media/giveaway-post.mp4" type="video/mp4">
+            </video>
+            <div class="media-placeholder">
+              <span>Drop <code>giveaway-post.mp4</code> (or .gif) in <code>assets/media/</code></span>
+            </div>
+          </div>
+          <figcaption>
+            <strong>A giveaway, auto-posted.</strong>
+            The bot finds a matching video and posts it as a rich embed the moment it clears the filter.
+          </figcaption>
+        </figure>
+
+        <figure class="demo-card">
+          <div class="media-frame">
+            <video class="media" autoplay loop muted playsinline poster="assets/media/setchannel.jpg">
+              <source src="assets/media/setchannel.mp4" type="video/mp4">
+            </video>
+            <div class="media-placeholder">
+              <span>Drop <code>setchannel.mp4</code> (or .gif) in <code>assets/media/</code></span>
+            </div>
+          </div>
+          <figcaption><strong>One command to set up.</strong> <code>/setchannel</code> and you're live.</figcaption>
+        </figure>
+
+        <figure class="demo-card">
+          <div class="media-frame">
+            <video class="media" autoplay loop muted playsinline poster="assets/media/daily-summary.jpg">
+              <source src="assets/media/daily-summary.mp4" type="video/mp4">
+            </video>
+            <div class="media-placeholder">
+              <span>Drop <code>daily-summary.mp4</code> (or .gif) in <code>assets/media/</code></span>
+            </div>
+          </div>
+          <figcaption><strong>Daily digest.</strong> A rollup of everything found and posted in the last 24 hours.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="section">
+      <h2>How it works</h2>
+      <p class="section-sub">The path from a YouTube upload to a post in your server.</p>
+
+      <div class="diagram-wrap">
+        <svg class="architecture-diagram" viewBox="0 0 1160 140" role="img" aria-labelledby="arch-title arch-desc" xmlns="http://www.w3.org/2000/svg">
+          <title id="arch-title">Bot architecture</title>
+          <desc id="arch-desc">YouTube is scanned on a schedule, videos pass through a keyword scorer then an LLM classifier, results persist to PostgreSQL, the Discord bot reads that state and posts matches, and users see them in their server.</desc>
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" style="fill:var(--accent)"></path>
+            </marker>
+          </defs>
+
+          <line x1="160" y1="70" x2="196" y2="70" style="stroke:var(--accent);stroke-width:2" marker-end="url(#arrow)"></line>
+          <line x1="360" y1="70" x2="396" y2="70" style="stroke:var(--accent);stroke-width:2" marker-end="url(#arrow)"></line>
+          <line x1="560" y1="70" x2="596" y2="70" style="stroke:var(--accent);stroke-width:2" marker-end="url(#arrow)"></line>
+          <line x1="760" y1="70" x2="796" y2="70" style="stroke:var(--accent);stroke-width:2" marker-end="url(#arrow)"></line>
+          <line x1="960" y1="70" x2="996" y2="70" style="stroke:var(--accent);stroke-width:2" marker-end="url(#arrow)"></line>
+
+          <g transform="translate(0,25)">
+            <rect width="160" height="90" rx="14" style="fill:var(--bg-card);stroke:var(--border)"></rect>
+            <text x="80" y="32" text-anchor="middle" font-size="22">📡</text>
+            <text x="80" y="56" text-anchor="middle" style="fill:var(--text)" font-size="14" font-weight="700">YouTube</text>
+            <text x="80" y="74" text-anchor="middle" style="fill:var(--text-dim)" font-size="11">scheduled scan</text>
+          </g>
+          <g transform="translate(200,25)">
+            <rect width="160" height="90" rx="14" style="fill:var(--bg-card);stroke:var(--border)"></rect>
+            <text x="80" y="32" text-anchor="middle" font-size="22">🧮</text>
+            <text x="80" y="56" text-anchor="middle" style="fill:var(--text)" font-size="14" font-weight="700">Keyword scorer</text>
+            <text x="80" y="74" text-anchor="middle" style="fill:var(--text-dim)" font-size="11">title + description</text>
+          </g>
+          <g transform="translate(400,25)">
+            <rect width="160" height="90" rx="14" style="fill:var(--bg-card);stroke:var(--border)"></rect>
+            <text x="80" y="32" text-anchor="middle" font-size="22">🧠</text>
+            <text x="80" y="56" text-anchor="middle" style="fill:var(--text)" font-size="14" font-weight="700">LLM classifier</text>
+            <text x="80" y="74" text-anchor="middle" style="fill:var(--text-dim)" font-size="11">confidence-gated</text>
+          </g>
+          <g transform="translate(600,25)">
+            <rect width="160" height="90" rx="14" style="fill:var(--bg-card);stroke:var(--border)"></rect>
+            <text x="80" y="32" text-anchor="middle" font-size="22">🗄️</text>
+            <text x="80" y="56" text-anchor="middle" style="fill:var(--text)" font-size="14" font-weight="700">PostgreSQL</text>
+            <text x="80" y="74" text-anchor="middle" style="fill:var(--text-dim)" font-size="11">servers + video log</text>
+          </g>
+          <g transform="translate(800,25)">
+            <rect width="160" height="90" rx="14" style="fill:var(--bg-card);stroke:var(--border)"></rect>
+            <text x="80" y="32" text-anchor="middle" font-size="22">🤖</text>
+            <text x="80" y="56" text-anchor="middle" style="fill:var(--text)" font-size="14" font-weight="700">Discord bot</text>
+            <text x="80" y="74" text-anchor="middle" style="fill:var(--text-dim)" font-size="11">posts + daily digest</text>
+          </g>
+          <g transform="translate(1000,25)">
+            <rect width="160" height="90" rx="14" style="fill:var(--bg-card);stroke:var(--border)"></rect>
+            <text x="80" y="32" text-anchor="middle" font-size="22">👥</text>
+            <text x="80" y="56" text-anchor="middle" style="fill:var(--text)" font-size="14" font-weight="700">Users</text>
+            <text x="80" y="74" text-anchor="middle" style="fill:var(--text-dim)" font-size="11">see it in-server</text>
+          </g>
+        </svg>
+      </div>
+
+      <ol class="pipeline">
+        <li class="pipeline-step">
+          <div class="pipeline-icon">📡</div>
+          <h3>Scan YouTube</h3>
+          <p>Searches recent uploads across hashtags and known creators on a recurring schedule.</p>
+        </li>
+        <li class="pipeline-step">
+          <div class="pipeline-icon">🧮</div>
+          <h3>Score &amp; filter</h3>
+          <p>A keyword heuristic scores title and description, then checks the video against a creator whitelist/blacklist.</p>
+        </li>
+        <li class="pipeline-step">
+          <div class="pipeline-icon">🧠</div>
+          <h3>Classify with an LLM</h3>
+          <p>Borderline cases get a model pass that judges real-giveaway vs. scam/repost, gated by a confidence threshold.</p>
+        </li>
+        <li class="pipeline-step">
+          <div class="pipeline-icon">📬</div>
+          <h3>Post &amp; track</h3>
+          <p>Approved videos post to your configured channel; everything's logged to Postgres to avoid duplicates and power the daily summary.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="features" class="section">
+      <h2>Features</h2>
+
+      <div class="features-groups">
+        <div class="features-group">
+          <h3 class="features-group-title">Giveaway discovery</h3>
+          <div class="features-grid">
+            <div class="feature-card">
+              <h4>Always scanning</h4>
+              <p>It's out there scanning YouTube around the clock, so nothing slips through while you're not watching.</p>
+            </div>
+            <div class="feature-card">
+              <h4>Smart filtering</h4>
+              <p>Every video gets scored, then double-checked by an LLM against a running creator whitelist/blacklist &mdash; so scams and reposts never make it to your channel.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="features-group">
+          <h3 class="features-group-title">Server subscriptions</h3>
+          <div class="features-grid">
+            <div class="feature-card">
+              <h4>One-command setup</h4>
+              <p><code>/setchannel</code> and you're live &mdash; no dashboards, no config files to edit.</p>
+            </div>
+            <div class="feature-card">
+              <h4>Per-server settings</h4>
+              <p>Every server keeps its own channel and preferences, stored independently so nothing bleeds between servers.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="features-group">
+          <h3 class="features-group-title">Notifications</h3>
+          <div class="features-grid">
+            <div class="feature-card">
+              <h4>Instant posts</h4>
+              <p>The moment a giveaway clears the filter, it lands in your channel as a rich embed.</p>
+            </div>
+            <div class="feature-card">
+              <h4>Daily digest</h4>
+              <p>A rollup of everything scanned and posted in the last 24 hours, so you're never left wondering what you missed.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="stack" class="section">
+      <h2>Built with</h2>
+      <ul class="stack-badges">
+        <li>Python</li>
+        <li>discord.py</li>
+        <li>PostgreSQL</li>
+        <li>OpenAI API</li>
+        <li>YouTube Data API</li>
+        <li>APScheduler</li>
+        <li>Google Cloud Compute Engine</li>
+      </ul>
+    </section>
+
+    <section id="highlights" class="section">
+      <h2>Engineering highlights</h2>
+      <p class="section-sub">A few things under the hood I'm actually proud of.</p>
+
+      <div class="highlights-grid">
+        <div class="feature-card">
+          <h4>Async all the way down</h4>
+          <p>Everything runs async &mdash; discord.py's event loop plus a connection pool for Postgres &mdash; so scanning, LLM calls, and posting to Discord never block each other.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Multi-tenant persistence</h4>
+          <p>Three Postgres tables keep every server's settings and every video's scoring history separate and durable, so nothing gets mixed up between servers.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Duplicate detection</h4>
+          <p>Before anything gets scored, I check it against everything already seen &mdash; so the same giveaway never posts twice.</p>
+        </div>
+        <div class="feature-card">
+          <h4>LLM-gated classification</h4>
+          <p>Borderline videos get a pass from an LLM, and only the ones that clear a confidence threshold actually get posted.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Scheduled background jobs</h4>
+          <p>APScheduler runs the scan cycle and daily cleanup on its own &mdash; I don't have to kick anything off manually.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Unit-tested scoring logic</h4>
+          <p>The keyword scorer already has real test coverage &mdash; next up is wiring that into CI (see what I'm building next) so it runs automatically.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="building" class="section">
+      <h2>What I'm building next</h2>
+      <p class="section-sub">This is a side project I keep pushing on in my free time &mdash; here's what's on my bench right now.</p>
+
+      <div class="building-list">
+        <div class="building-item">
+          <span class="building-tag">In progress</span>
+          <h3>CI pipeline &amp; linting</h3>
+          <p>I'm wiring up automated test runs and linting on every push, so I can ship changes faster without worrying I broke something in production.</p>
+        </div>
+        <div class="building-item">
+          <span class="building-tag">In progress</span>
+          <h3>An eval harness for the classifier</h3>
+          <p>The LLM confidence threshold is basically a guess right now. I'm building a labeled test set so I can actually measure accuracy and tune it with data instead of intuition.</p>
+        </div>
+        <div class="building-item">
+          <span class="building-tag">Planned</span>
+          <h3>Feedback on posted giveaways</h3>
+          <p>I want server members to be able to flag a false positive with a reaction. That feedback becomes real training data for the classifier over time.</p>
+        </div>
+        <div class="building-item">
+          <span class="building-tag">Planned</span>
+          <h3>An admin review queue</h3>
+          <p>Not every server wants the same level of strictness. I'm adding a queue so admins can manually approve borderline videos instead of trusting the auto-filter completely.</p>
+        </div>
+        <div class="building-item">
+          <span class="building-tag">Planned</span>
+          <h3>Containerizing with Docker</h3>
+          <p>I'm planning a migration off my current Compute Engine box to a container-based platform, so Docker is next on the infra side.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="privacy" class="section">
+      <h2>Privacy &amp; permissions</h2>
+      <p class="section-sub">The bot only asks for what it actually needs &mdash; here's exactly what that is.</p>
+
+      <div class="building-list">
+        <div class="building-item">
+          <h3>Permissions it requests</h3>
+          <ul class="privacy-list">
+            <li>View Channels</li>
+            <li>Send Messages</li>
+            <li>Embed Links</li>
+            <li>Read Message History</li>
+            <li><code>applications.commands</code> scope, for the slash commands</li>
+          </ul>
+          <p class="privacy-note">It never asks to read message content, manage roles or channels, or kick/ban members.</p>
+        </div>
+        <div class="building-item">
+          <h3>What it stores</h3>
+          <ul class="privacy-list">
+            <li>Which channel each server wants giveaways posted to</li>
+            <li>Metadata for videos it's found &mdash; title, channel, URL, and its score &mdash; to avoid duplicate posts and power the daily digest</li>
+          </ul>
+          <p class="privacy-note">It never stores message content, member lists, or anything from DMs. Removing the bot, or deleting the configured channel, automatically deletes your server's stored config.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-section">
+      <h2>Try it in your server</h2>
+      <p class="section-sub">Free to add. One command to get started.</p>
+      <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1502836905106997348&amp;permissions=84992&amp;scope=bot+applications.commands">
+        <span>Add to Discord</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Built by <a href="#" id="footer-link">your name</a>.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
